@@ -1,7 +1,12 @@
 
-export * from "./product/products/product-grid/ProductGridItem";
-export * from "./ui/not-found/PageNotFound";
 
-export { TopMenu } from "./ui/top-menu/TopMenu";
-export { ProductGrid } from "./product/products/product-grid/ProductGrid";
-export {Title} from "./ui/title/Title";
+
+
+export * from './products/product-grid/ProductGrid';
+export * from './products/product-grid/ProductGridItem';
+
+
+export * from './ui/not-found/PageNotFound';
+export * from './ui/sidebar/Sidebar';
+export * from './ui/title/Title';
+export * from './ui/top-menu/TopMenu';

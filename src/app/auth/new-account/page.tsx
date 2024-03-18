@@ -1,10 +1,10 @@
-import { titleFont } from "@/config/fonts";
-import Image from "next/image";
+import { titleFont } from '@/config/fonts';
 
-export default function Home() {
+
+export default function() {
   return (
-    <main className="">
-      <h1>Login</h1>
-    </main>
+    <div className="">
+      <h1>New Account</h1>
+    </div>
   );
 }

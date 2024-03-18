@@ -1,4 +1,5 @@
-export default function EmptyPage() {
+
+export default function() {
   return (
     <div>
       <h1>Empty Page</h1>

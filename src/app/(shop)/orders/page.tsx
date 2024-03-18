@@ -1,7 +1,8 @@
-export default function OrdersPage() {
+
+export default function() {
   return (
     <div>
-      <h1>Orders Page</h1>
+      <h1>Listado de ordenes</h1>
     </div>
   );
 }

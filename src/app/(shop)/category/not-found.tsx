@@ -1,6 +1,10 @@
-import PageNotFound from "@/components/ui/not-found/PageNotFound";
-import Link from "next/link";
+import { PageNotFound } from '@/components';
 
-export default function NotFoundPage() {
-  return <PageNotFound />;
+
+export default function() {
+
+
+  return (
+    <PageNotFound />
+  );
 }
