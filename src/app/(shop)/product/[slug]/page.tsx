@@ -1,3 +1,6 @@
+import { ProductMobileSlideshow, ProductSlideShow } from "@/components";
+import QuantitySelector from "@/components/product/quantity-selector/QuantitySelector";
+import SizeSelector from "@/components/product/size-selector/SizeSelector";
 import { titleFont } from "@/config/fonts";
 import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
@@ -15,9 +18,21 @@ export default function ProductPage({ params }: Props) {
   }
   return (
     <div className="mt-5 mb-20 grid grid-cols-1 md:grid-cols-3 gap-3">
-      {/* Slide show */}
+      {/* Mobile Slide show */}
+      <ProductMobileSlideshow
+        images={product.images}
+        title={product.title}
+        className="block md:hidden"
+      />
 
-      <div className="col-span-1 md:col-span-2"></div>
+      {/* Slide show  Desktop*/}
+      <div className="col-span-1 md:col-span-2">
+        <ProductSlideShow
+          title={product.title}
+          images={product.images}
+          className="hidden md:block"
+        />
+      </div>
 
       {/* Detalles de producto */}
       <div className="col-span-1 px-5">
@@ -26,7 +41,12 @@ export default function ProductPage({ params }: Props) {
         </h1>
         <p className="text-lg mb-5">{product.price}</p>
         {/* {Selector de tallas } */}
+        <SizeSelector
+          selectedSize={product.sizes[0]}
+          availableSizes={product.sizes}
+        />
         {/* {Selector de cantidad } */}
+        <QuantitySelector quantity={2} />
         {/* Boton */}
         <button className="btn-primary my-5">Add to cart</button>
         {/* description */}
