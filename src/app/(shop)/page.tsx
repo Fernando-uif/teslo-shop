@@ -1,5 +1,6 @@
 import { getPaginatedProductsWidthImages } from "@/actions";
 import { ProductGrid, Title } from "@/components";
+import Pagination from "@/components/ui/pagination/Pagination";
 import { redirect } from "next/navigation";
 
 interface Props {
@@ -10,8 +11,9 @@ interface Props {
 
 export default async function Home({ searchParams }: Props) {
   const page = searchParams.page ? Number(searchParams.page) : 1;
-  const { products } = await getPaginatedProductsWidthImages({ page });
-  console.log(products,'proeud');
+  const { products, currentPage, totalPages } =
+    await getPaginatedProductsWidthImages({ page });
+
   if (!products?.length) {
     redirect("/");
   }
@@ -20,6 +22,7 @@ export default async function Home({ searchParams }: Props) {
       <Title title="Shop" subtitle="All products" className="mb-2" />
 
       <ProductGrid products={products} />
+      <Pagination totalPages={totalPages} />
     </>
   );
 }
