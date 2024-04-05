@@ -1,5 +1,7 @@
 export interface Product {
+  id: string;
   description: string;
+  gender: Category;
   images: string[];
   inStock: number;
   price: number;
@@ -7,8 +9,8 @@ export interface Product {
   slug: string;
   tags: string[];
   title: string;
-  type: ValidType;
-  gender: Category;
+  // TODO type
+  // type: ValidType;
 }
 export type Category = "men" | "women" | "kid" | "unisex";
 export type Size = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
