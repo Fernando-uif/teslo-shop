@@ -9,6 +9,7 @@ export interface Product {
   slug: string;
   tags: string[];
   title: string;
+
   // TODO type
   // type: ValidType;
 }
