@@ -1,7 +1,10 @@
+
 import { getPaginatedProductsWidthImages } from "@/actions";
 import { ProductGrid, Title } from "@/components";
 import Pagination from "@/components/ui/pagination/Pagination";
 import { redirect } from "next/navigation";
+
+export const revalidate = 60;
 
 interface Props {
   searchParams: {

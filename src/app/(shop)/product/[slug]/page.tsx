@@ -1,5 +1,5 @@
 import { ProductMobileSlideshow, ProductSlideShow } from "@/components";
-import QuantitySelector from "@/components/product/quantity-selector/QuantitySelector";
+import {QuantitySelector} from "@/components/product/quantity-selector/QuantitySelector";
 import SizeSelector from "@/components/product/size-selector/SizeSelector";
 import { titleFont } from "@/config/fonts";
 import { initialData } from "@/seed/seed";

@@ -1,12 +1,13 @@
-import { notFound } from "next/navigation";
-
+export const revalidate = 60; // seconds
 import { ProductGrid, Title } from "@/components";
 import { getPaginatedProductsWidthImages } from "@/actions";
 import Pagination from "@/components/ui/pagination/Pagination";
+import { Category } from "@/interfaces/product.interface";
+import { redirect } from "next/navigation";
 
 interface Props {
   params: {
-    gender: string;
+    gender: Category;
   };
 
   searchParams: {
@@ -22,8 +23,10 @@ export default async function GenderPage({ params, searchParams }: Props) {
     ?.slice(0, 1)
     ?.toUpperCase()
     ?.concat(gender.slice(1, gender.length));
-  const { currentPage, products, totalPages } =
-    await getPaginatedProductsWidthImages({ gender, page: Number(page) });
+  const { products, totalPages } = await getPaginatedProductsWidthImages({
+    gender,
+    page: Number(page),
+  });
 
   return (
     <>

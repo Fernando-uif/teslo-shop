@@ -11,7 +11,7 @@ interface Props {
   totalPages: number;
 }
 
-const Pagination = ({ totalPages }: Props) => {
+export const Pagination = ({ totalPages }: Props) => {
   const pathName = usePathname();
   const searchParams = useSearchParams();
   const pageString = searchParams.get("page") ?? 1;
