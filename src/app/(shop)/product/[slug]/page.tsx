@@ -1,8 +1,15 @@
-import { ProductMobileSlideshow, ProductSlideShow } from "@/components";
-import {QuantitySelector} from "@/components/product/quantity-selector/QuantitySelector";
+export const revalidate = 604800; // 7 dias
+
+import { getProductBySlug } from "@/actions";
+import {
+  ProductMobileSlideshow,
+  ProductSlideShow,
+  StockLabel,
+} from "@/components";
+import { QuantitySelector } from "@/components/product/quantity-selector/QuantitySelector";
 import SizeSelector from "@/components/product/size-selector/SizeSelector";
 import { titleFont } from "@/config/fonts";
-import { initialData } from "@/seed/seed";
+
 import { notFound } from "next/navigation";
 
 interface Props {
@@ -10,9 +17,38 @@ interface Props {
     slug: string;
   };
 }
-export default function ProductPage({ params }: Props) {
+
+import type { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const slug = params.slug;
+
+  // fetch data
+  const product = await getProductBySlug(slug);
+
+  // optionally access and extend (rather than replace) parent metadata
+  // const previousImages = (await parent).openGraph?.images || []
+
+  return {
+    title: product?.title || "product not found",
+    description: product?.description ?? "",
+
+    openGraph: {
+      title: product?.title || "product not found",
+      description: product?.description ?? "",
+      // images: ["https://"],
+      images: [`/products/${product?.images[1]}`],
+    },
+  };
+}
+
+export default async function ProductPage({ params }: Props) {
   const { slug } = params;
-  const product = initialData.products.find((product) => product.slug === slug);
+  const product = await getProductBySlug(slug);
   if (!product) {
     notFound();
   }
@@ -36,6 +72,7 @@ export default function ProductPage({ params }: Props) {
 
       {/* Detalles de producto */}
       <div className="col-span-1 px-5">
+        <StockLabel slug={product.slug} />
         <h1 className={`${titleFont.className} antialiased font-bold text-xl`}>
           {product.title}
         </h1>

@@ -1,3 +1,5 @@
+export { StockLabel } from "./product/stock-label/StockLabel";
+
 export * from "./ui/pagination/Pagination";
 export { QuantitySelector } from "./product/quantity-selector/QuantitySelector";
 export * from "./product/size-selector/SizeSelector";

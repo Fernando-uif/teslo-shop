@@ -35,8 +35,8 @@ export const ProductSlideShow = ({ images, title, className }: Props) => {
         slidesPerView={1}
         navigation={true}
         autoplay={{ delay: 2500 }}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
+        // onSlideChange={() => console.log("slide change")}
+        // onSwiper={(swiper) => console.log(swiper)}
         thumbs={{
           swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
         }}

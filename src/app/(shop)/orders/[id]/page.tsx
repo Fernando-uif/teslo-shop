@@ -1,8 +1,10 @@
-import { Title } from "@/components";
-import { initialData } from "@/seed/seed";
+import { Children } from "react";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
+
+import { Title } from "@/components";
+import { initialData } from "@/seed/seed";
 import { IoCartOutline } from "react-icons/io5";
 const productsInCart = [
   initialData.products[0],
@@ -44,29 +46,33 @@ export default function OrdersByIdPage({ params }: Props) {
             </div>
 
             {/* Items */}
-            {productsInCart.map((product) => {
-              return (
-                <div key={product.slug} className="flex mb-5">
-                  <Image
-                    src={`/products/${product.images[0]}`}
-                    alt={`${product.title}`}
-                    width={100}
-                    height={100}
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      aspectRatio: "1/1",
-                    }}
-                    className="mr-5"
-                  />
-                  <div>
-                    <p>{product.title}</p>
-                    <p>${product.price} x 3</p>
-                    <p className="font-bold">Subtotal: ${product.price * 3}</p>
+            {Children.toArray(
+              productsInCart.map((product) => {
+                return (
+                  <div key={product.slug} className="flex mb-5">
+                    <Image
+                      src={`/products/${product.images[0]}`}
+                      alt={`${product.title}`}
+                      width={100}
+                      height={100}
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        aspectRatio: "1/1",
+                      }}
+                      className="mr-5"
+                    />
+                    <div>
+                      <p>{product.title}</p>
+                      <p>${product.price} x 3</p>
+                      <p className="font-bold">
+                        Subtotal: ${product.price * 3}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
 
           {/* Checkout  order resume*/}

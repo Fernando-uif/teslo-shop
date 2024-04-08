@@ -1,9 +1,11 @@
-import { Title } from "@/components";
-import {QuantitySelector} from "@/components/product/quantity-selector/QuantitySelector";
-import { initialData } from "@/seed/seed";
+import React from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+
+import { Title } from "@/components";
+import {QuantitySelector} from "@/components/product/quantity-selector/QuantitySelector";
+import { initialData } from "@/seed/seed";
 const productsInCart = [
   initialData.products[0],
   initialData.products[1],
@@ -24,7 +26,8 @@ export default function CartPage() {
               Keep Buying
             </Link>
             {/* Items */}
-            {productsInCart.map((product) => {
+            {
+            React.Children.toArray(productsInCart.map((product) => {
               return (
                 <div key={product.slug} className="flex mb-5">
                   <Image
@@ -47,7 +50,9 @@ export default function CartPage() {
                   </div>
                 </div>
               );
-            })}
+            }))
+            
+            }
           </div>
 
           {/* Checkout  order resume*/}
