@@ -1,16 +1,10 @@
 import React from 'react';
-import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+
 
 import { Title } from "@/components";
-import {QuantitySelector} from "@/components/product/quantity-selector/QuantitySelector";
-import { initialData } from "@/seed/seed";
-const productsInCart = [
-  initialData.products[0],
-  initialData.products[1],
-  initialData.products[2],
-];
+import ProductsInCart from './ui/ProductsInCart';
+
 export default function CartPage() {
   // if(productsInCart.length)
   // redirect('/empty');
@@ -26,33 +20,7 @@ export default function CartPage() {
               Keep Buying
             </Link>
             {/* Items */}
-            {
-            React.Children.toArray(productsInCart.map((product) => {
-              return (
-                <div key={product.slug} className="flex mb-5">
-                  <Image
-                    src={`/products/${product.images[0]}`}
-                    alt={`${product.title}`}
-                    width={100}
-                    height={100}
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      aspectRatio: "1/1",
-                    }}
-                    className="mr-5"
-                  />
-                  <div>
-                    <p>{product.title}</p>
-                    <p>${product.price}</p>
-                    <QuantitySelector quantity={3} />
-                    <button className="underline mt-3">Remove</button>
-                  </div>
-                </div>
-              );
-            }))
-            
-            }
+          <ProductsInCart />
           </div>
 
           {/* Checkout  order resume*/}

@@ -27,7 +27,7 @@ export default function CheckoutPage() {
               
               productsInCart.map((product) => {
                 return (
-                  <div key={product.slug} className="flex mb-5">
+                  <div  className="flex mb-5">
                     <Image
                       src={`/products/${product.images[0]}`}
                       alt={`${product.title}`}

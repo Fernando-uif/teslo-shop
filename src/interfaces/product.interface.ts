@@ -1,6 +1,6 @@
 export interface Product {
   id: string;
-  description: string;
+  description: string | null;
   gender: Category;
   images: string[];
   inStock: number;
@@ -13,6 +13,18 @@ export interface Product {
   // TODO type
   // type: ValidType;
 }
+
+export interface CartProduct {
+  id: string;
+  slug: string;
+  title: string;
+  price: number;
+  quantity: number;
+  size: Size | undefined;
+  image: string;
+  
+}
+
 export type Category = "men" | "women" | "kid" | "unisex";
 export type Size = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
 export type ValidType = "shirts" | "pants" | "hoodies" | "hats";
