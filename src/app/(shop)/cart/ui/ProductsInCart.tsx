@@ -1,13 +1,18 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 import { useCartStore } from "@/store";
 import { QuantitySelector } from "@/components";
-import Link from "next/link";
 
 const ProductsInCart = () => {
   const productsInCart = useCartStore((state) => state.cart);
+  const updateProductQuantity = useCartStore(
+    (state) => state.updateProductQuantity
+  );
+  const removeProduct = useCartStore((state) => state.removeProduct);
+
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     setLoaded(true);
@@ -39,14 +44,23 @@ const ProductsInCart = () => {
                   className="hover:underline cursor-pointer"
                   href={`/product/${product.slug}`}
                 >
-                  {product.title}
+                  {product.size} - {product.title}
                 </Link>
                 <p>${product.price}</p>
                 <QuantitySelector
-                  quantity={3}
-                  setQuantity={(value) => console.log(value)}
+                  quantity={product.quantity}
+                  setQuantity={(quantity) =>
+                    updateProductQuantity(product, quantity)
+                  }
                 />
-                <button className="underline mt-3">Remove</button>
+                <button
+                  onClick={() => {
+                    removeProduct(product);
+                  }}
+                  className="underline mt-3"
+                >
+                  Remove
+                </button>
               </div>
             </div>
           );

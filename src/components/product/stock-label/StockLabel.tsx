@@ -18,12 +18,7 @@ export const StockLabel = ({ slug }: Props) => {
 
     return () => {};
   }, [slug]);
-  // console.log(isLoading,'is loading');
-  // const getStock = async () => {
-  //   const inStock = await getStockBySlug(slug);
-  //   setInStock(inStock);
-  //   return
-  // };
+
   return (
     <>
       {isLoading ? (

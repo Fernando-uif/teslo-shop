@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import Link from "next/link";
 
-
 import { Title } from "@/components";
-import ProductsInCart from './ui/ProductsInCart';
+import ProductsInCart from "./ui/ProductsInCart";
+import { OrderSummary } from "./ui/OrderSummary";
 
 export default function CartPage() {
   // if(productsInCart.length)
@@ -20,25 +20,15 @@ export default function CartPage() {
               Keep Buying
             </Link>
             {/* Items */}
-          <ProductsInCart />
+            <ProductsInCart />
           </div>
 
           {/* Checkout  order resume*/}
           <div className="bg-white rounded-xl shadow-xl p-7 h-fit">
-            <h2 className="text-2xl mb-2 ">Resumen de orden</h2>
-            <div className="grid grid-cols-2">
-              <span>No. Items</span>
-              <span className="text-right">3 Items</span>
+            <h2 className="text-2xl mb-2 ">Order</h2>
 
-              <span>SubTotal</span>
-              <span className="text-right">$100</span>
+            <OrderSummary />
 
-              <span>Taxes(15%)</span>
-              <span className="text-right">$100</span>
-
-              <span className="mt-5 text-2xl">Total:</span>
-              <span className="mt-5 text-2xl text-right">$100</span>
-            </div>
             <div className="mt-5 mb-2  w-full">
               <Link
                 className="flex btn-primary justify-center"

@@ -5,11 +5,15 @@ import { persist } from "zustand/middleware";
 interface State {
   cart: CartProduct[];
   addProductTocart: (product: CartProduct) => void;
-  // addProductToCart
-  // updateProductQuantity
-  // RremoveProduct
-
   getTotalItems: () => number;
+  updateProductQuantity: (product: CartProduct, quantity: number) => void;
+  removeProduct: (product: CartProduct) => void;
+  getSummaryInformation: () => {
+    subTotal: number;
+    tax: number;
+    total: number;
+    itemsIncart: number;
+  };
 }
 // get me permite obtener el estado actual
 export const useCartStore = create<State>()(
@@ -19,7 +23,7 @@ export const useCartStore = create<State>()(
     (set, get) => ({
       getTotalItems: () => {
         const { cart } = get();
-        return cart.reduce((total,item) => total + item.quantity, 0);
+        return cart.reduce((total, item) => total + item.quantity, 0);
       },
       cart: [],
       // Methods
@@ -47,6 +51,45 @@ export const useCartStore = create<State>()(
         set({
           cart: updatedCartProducts,
         });
+      },
+      updateProductQuantity(product, quantity) {
+        const { cart } = get();
+
+        const updatedCartProducts = cart.map((item) => {
+          if (item.id === product.id && item.size === product.size) {
+            return { ...item, quantity };
+          }
+          return item;
+        });
+        set({ cart: updatedCartProducts });
+      },
+      removeProduct(product: CartProduct) {
+        const { cart } = get();
+
+        const updatedCartFilter = cart.filter((item) => {
+          return item.id !== product.id || product.size !== item.size;
+        });
+        set({ cart: updatedCartFilter });
+      },
+      getSummaryInformation() {
+        const { cart } = get();
+        const iva = 0.15;
+        const subTotal: number = cart.reduce(
+          (subTotal, product) => product.quantity * product.price + subTotal,
+          0
+        );
+        const tax = subTotal * iva;
+        const total = subTotal + tax;
+        const itemsIncart = cart.reduce(
+          (total, item) => total + item.quantity,
+          0
+        );
+        return {
+          subTotal,
+          tax,
+          total,
+          itemsIncart,
+        };
       },
     }),
     {

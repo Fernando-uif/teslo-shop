@@ -9,10 +9,12 @@ interface Props {
 }
 
 export const QuantitySelector = ({ quantity, setQuantity }: Props) => {
+
   // const [count, setCount] = useState(quantity);
   const onValueChanged = (value: number) => {
     if (!(value + quantity)) return;
     // setCount((prev) => prev + value);
+
     setQuantity(quantity + value);
   };
 
