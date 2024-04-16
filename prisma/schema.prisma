@@ -30,6 +30,11 @@ enum Gender {
   unisex
 }
 
+enum Role {
+  admin
+  user
+}
+
 model Category {
   id      String    @id @default(uuid())
   name    String    @unique
@@ -48,9 +53,9 @@ model Product {
   title       String
   gender      Gender
 
-  category     Category       @relation(fields: [categoryId], references: [id])
-  categoryId   String
-  
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+
   // Relacion de imagenes
   ProductImage ProductImage[]
 
@@ -68,4 +73,14 @@ model ProductImage {
   // Colocar la relacion que existira en estos modelos , por eso es que vamos a Product y colocamos 'ProductImage ProductImage[]'
   product   Product @relation(fields: [productId], references: [id])
   productId String
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  emailVerified DateTime?
+  password      String
+  role          Role      @default(user)
+  image         String?
 }
