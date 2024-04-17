@@ -1,8 +1,9 @@
+export { Provider } from "./provider/Provider";
 export { StockLabel } from "./product/stock-label/StockLabel";
-
-export * from "./ui/pagination/Pagination";
 export { QuantitySelector } from "./product/quantity-selector/QuantitySelector";
 export { SizeSelector } from "./product/size-selector/SizeSelector";
+
+export * from "./ui/pagination/Pagination";
 export * from "./product/slideshow/ProductMobileSlideshow";
 export * from "./product/slideshow/ProductSlideshow";
 export * from "./products/product-grid/ProductGrid";

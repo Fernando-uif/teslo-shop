@@ -1,11 +1,22 @@
 "use client";
 import { authenticate } from "@/actions";
+import clsx from "clsx";
 import Link from "next/link";
-import React from "react";
-import { useFormState } from "react-dom";
+import { useRouter } from "next/navigation";
+
+import React, { useEffect } from "react";
+import { useFormState, useFormStatus } from "react-dom";
+import { IoInformationOutline } from "react-icons/io5";
 
 export const LoginForm = () => {
   const [state, dispatch] = useFormState(authenticate, undefined);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state === "Success") {
+      router.replace("/");
+    }
+  }, [state, router]);
   console.log(state, "sttate");
   return (
     <form action={dispatch} className="flex flex-col">
@@ -23,9 +34,19 @@ export const LoginForm = () => {
         name="password"
       />
 
-      <button type="submit" className="btn-primary">
-        Login to your account
-      </button>
+      <div
+        className="flex h-8 items-end space-x-1"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {state === "Invalid credentials." && (
+          <div className="mb-2 flex flex-row">
+            <IoInformationOutline className="h-5 w-5 text-red-500" />
+            <p className="text-sm text-red-500">Invalid Credentials</p>
+          </div>
+        )}
+      </div>
+      <LoginButton />
 
       {/* divisor l ine */}
       <div className="flex items-center my-5">
@@ -40,3 +61,19 @@ export const LoginForm = () => {
     </form>
   );
 };
+
+function LoginButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type="submit"
+      className={clsx({
+        "btn-primary": !pending,
+        "btn-disabled": pending,
+      })}
+      disabled={pending}
+    >
+      Login to your account
+    </button>
+  );
+}

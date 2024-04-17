@@ -8,18 +8,19 @@ export async function authenticate(
   formData: FormData
 ) {
   try {
-
     // credentials seria google, github etc
-    await signIn("credentials", formData);
+    console.log(Object.fromEntries(formData), "resp");
+    await signIn("credentials", {
+      ...Object.fromEntries(formData),
+      redirect: false,
+    });
+    return "Success";
   } catch (error) {
     if (error instanceof AuthError) {
-    //   switch (error.type) {
-        // case "CredentialsSignin":
-          return "Invalid credentials.";
-        // default:
-        //   return "Something went wrong.";
-    //   }
+      if ((error as any).type === "Invalid credentials.") {
+        return "Invalid credentials.";
+      }
+      return "Unknown Error";
     }
-    // throw error;
   }
 }
