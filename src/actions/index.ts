@@ -1,4 +1,5 @@
-import { logout } from "./auth/logOut";
+export { logout } from "./auth/logOut";
+export { registerUser } from "./auth/register";
 
 export { authenticate } from "./auth/login";
 

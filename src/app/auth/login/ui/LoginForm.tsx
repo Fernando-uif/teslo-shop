@@ -10,13 +10,14 @@ import { IoInformationOutline } from "react-icons/io5";
 
 export const LoginForm = () => {
   const [state, dispatch] = useFormState(authenticate, undefined);
-  const router = useRouter();
+  // const router = useRouter();
 
   useEffect(() => {
     if (state === "Success") {
-      router.replace("/");
+      // router.replace("/");
+      window.location.replace('/');
     }
-  }, [state, router]);
+  }, [state]);
   console.log(state, "sttate");
   return (
     <form action={dispatch} className="flex flex-col">
