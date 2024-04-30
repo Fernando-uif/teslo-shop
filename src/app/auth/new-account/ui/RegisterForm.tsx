@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { registerUser } from "@/actions/";
 import { useState } from "react";
+import { login } from "@/actions/auth/login";
+
 type FormInputs = {
   name: string;
   email: string;
@@ -12,23 +14,25 @@ type FormInputs = {
 };
 
 export const RegisterForm = () => {
+
   const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
+
   const onSubmit = async (data: FormInputs) => {
     const { email, name, password } = data;
 
     const resp = await registerUser(name, email, password);
-    console.log(resp,'resp');
+
     if (!resp.ok) {
       setErrorMessage("User not created");
       return;
     }
-
-    console.log(resp, "resp");
+    await login(email.toLowerCase(), password);
+    window.location.replace("/");
   };
   return (
     <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
