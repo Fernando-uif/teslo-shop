@@ -15,7 +15,7 @@ export const AddToCart = ({ product }: Props) => {
   const addProductToCart = useCartStore((state) => state.addProductTocart);
 
   const addToCart = () => {
-    console.log(size,'tenemos el size');
+
     if (!size) {
       setPosted(true);
       return;

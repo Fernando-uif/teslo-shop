@@ -13,7 +13,7 @@ export const authConfig: NextAuthConfig = {
 
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      console.log(auth,'auth');
+
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
       if (isOnDashboard) {
@@ -32,7 +32,7 @@ export const authConfig: NextAuthConfig = {
       return token;
     },
     session({ session, token, user }) {
-      console.log(session, token, user);
+
       session.user = token.data as any;
       return session;
     },
@@ -58,7 +58,7 @@ export const authConfig: NextAuthConfig = {
         if (!bcryptjs.compareSync(password, user.password)) return null;
         // Quitando el password del usuario
         const { password: _, ...restUser } = user;
-        console.log(restUser, "tenemos el resto del usuario");
+
         return restUser;
       },
     }),

@@ -9,7 +9,7 @@ export async function authenticate(
 ) {
   try {
     // credentials seria google, github etc
-    console.log(Object.fromEntries(formData), "resp");
+
     await signIn("credentials", {
       ...Object.fromEntries(formData),
       redirect: false,

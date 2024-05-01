@@ -1,10 +1,14 @@
 "use client";
 
+import { useEffect, Children } from "react";
 import clsx from "clsx";
 import { useForm } from "react-hook-form";
+import { useSession } from "next-auth/react";
+
 import { Country } from "@/interfaces";
 import { useAddressStore } from "@/store";
-import { useEffect } from "react";
+import { setUserAddress } from "@/actions";
+import { deleteUserAddress } from "@/actions/";
 
 type FormInputs = {
   firstName: string;
@@ -29,13 +33,16 @@ export const AddressForm = ({ countries }: Props) => {
     formState: { isValid },
     reset,
   } = useForm<FormInputs>({
-    defaultValues: {
-      // TODO Database
-    },
+    defaultValues: {},
   });
 
   const setAddress = useAddressStore((state) => state.setAddress);
   const address = useAddressStore((state) => state.address);
+
+  const { data: session } = useSession({
+    required: true,
+    // si la persona no esta autenticada mandara el login
+  });
 
   useEffect(() => {
     if (address.firstName) {
@@ -45,6 +52,13 @@ export const AddressForm = ({ countries }: Props) => {
 
   const onSubmit = (data: FormInputs) => {
     setAddress(data);
+    const { rememberAddress, ...restAddress } = data;
+    if (data.rememberAddress) {
+      // todo server
+      setUserAddress(restAddress, session?.user?.id || "");
+    } else {
+      deleteUserAddress(session?.user?.id || "");
+    }
   };
 
   return (
@@ -113,15 +127,17 @@ export const AddressForm = ({ countries }: Props) => {
           {...register("country", { required: true })}
         >
           <option value="">[ Seleccione ]</option>
-          {countries.map((country) => {
-            return (
-              <>
-                <option key={country.id} value={country.id}>
-                  {country.name}
-                </option>
-              </>
-            );
-          })}
+          {Children.toArray(
+            countries.map((country) => {
+              return (
+                <>
+                  <option key={country.id} value={country.id}>
+                    {country.name}
+                  </option>
+                </>
+              );
+            })
+          )}
         </select>
       </div>
 
@@ -145,7 +161,6 @@ export const AddressForm = ({ countries }: Props) => {
               type="checkbox"
               className="border-gray-500 before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-blue-500 checked:before:bg-blue-500 hover:before:opacity-10"
               id="checkbox"
-              checked
               {...register("rememberAddress")}
             />
             <div className="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
@@ -158,7 +173,7 @@ export const AddressForm = ({ countries }: Props) => {
                 strokeWidth="1"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                   clipRule="evenodd"
                 ></path>

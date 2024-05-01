@@ -24,7 +24,7 @@ export const Sidebar = () => {
   // Hook de session lado cliente
   const { data: session } = useSession();
   const isAuthenticated = !!session?.user;
-  console.log(session, "tenemos la session");
+
   const isAdmin = session?.user?.role === "admin";
 
   return (

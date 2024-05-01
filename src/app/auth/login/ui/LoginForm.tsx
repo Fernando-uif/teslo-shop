@@ -18,7 +18,7 @@ export const LoginForm = () => {
       window.location.replace('/');
     }
   }, [state]);
-  console.log(state, "sttate");
+
   return (
     <form action={dispatch} className="flex flex-col">
       <label htmlFor="email">E-mail</label>
