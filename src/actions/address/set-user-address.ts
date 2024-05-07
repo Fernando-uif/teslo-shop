@@ -4,7 +4,7 @@ import type { Address } from "@/interfaces";
 import prisma from "@/lib/prisma";
 
 export const setUserAddress = async (address: Address, userId: string) => {
-  console.log(address,'address',userId,'userID');
+  console.log(address, "address", userId, "userID");
   try {
     const newAddress = await createOrReplaceAddress(address, userId);
     return {
@@ -34,6 +34,7 @@ const createOrReplaceAddress = async (address: Address, userId: string) => {
       firstName: address.firstName,
       lastName: address.lastName,
       phone: address.phone,
+      city: address.city,
       postalCode: address.postalCode,
     };
     if (!storeAddress) {
@@ -49,7 +50,6 @@ const createOrReplaceAddress = async (address: Address, userId: string) => {
       data: addressToSave,
     });
     return updatedAddress;
-    
   } catch (error) {
     console.log(error);
     throw new Error("The information could not be recorded");
