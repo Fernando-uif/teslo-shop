@@ -2,9 +2,9 @@
 
 import { useAddressStore, useCartStore } from "@/store";
 import { useEffect, useState } from "react";
-import { Address } from "../../../../../interfaces/address.interface";
 import { currencyFormat } from "@/utils";
 import clsx from "clsx";
+import { placeOrder } from "@/actions";
 
 export const PlaceOrder = () => {
   const [loaded, setLoaded] = useState(false);
@@ -28,7 +28,8 @@ export const PlaceOrder = () => {
       size: product.size,
     }));
     console.log({ address });
-    // todo server action
+    const resp = await placeOrder(productsToOrder, address);
+    console.log(resp,'tenemos la resp');
     setIsPlacingOrder(false);
   };
 
