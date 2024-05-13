@@ -6,6 +6,8 @@ import Link from "next/link";
 import { Title } from "@/components";
 import { initialData } from "@/seed/seed";
 import { IoCartOutline } from "react-icons/io5";
+import { getOrderById } from "@/actions/order/get-order-by-id";
+import { redirect } from "next/navigation";
 const productsInCart = [
   initialData.products[0],
   initialData.products[1],
@@ -18,10 +20,12 @@ interface Props {
   };
 }
 
-export default function OrdersByIdPage({ params }: Props) {
+export default async function OrdersByIdPage({ params }: Props) {
   const { id } = params;
-  // TODO Verificar
-  // Redirect para sacar de la pantall
+  const { order, ok } = await getOrderById(id);
+  if (!ok) {
+    redirect("/");
+  }
 
   return (
     <div className="flex justify-center items-center mb-72 px-10 sm:px-0">
@@ -34,25 +38,25 @@ export default function OrdersByIdPage({ params }: Props) {
               className={clsx(
                 "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
                 {
-                  "bg-red-500": false,
-                  "bg-green-700": true,
+                  "bg-red-500": !order?.isPaid,
+                  "bg-green-700": order?.isPaid,
                 }
               )}
             >
               <IoCartOutline size={30} />
-              {/* <span className="mx-2">Pending</span> */}
-
-              <span className="mx-2">Paid</span>
+              <span className="mx-2">
+                {order?.isPaid ? "Paid" : "Not paid"}
+              </span>
             </div>
 
             {/* Items */}
             {Children.toArray(
-              productsInCart.map((product) => {
+              order?.OrderItem.map((product) => {
                 return (
-                  <div key={product.slug} className="flex mb-5">
+                  <div className="flex mb-5">
                     <Image
-                      src={`/products/${product.images[0]}`}
-                      alt={`${product.title}`}
+                      src={`/products/${product?.product.ProductImage[0]?.url}`}
+                      alt={`${product?.product?.title}`}
                       width={100}
                       height={100}
                       style={{
@@ -63,10 +67,12 @@ export default function OrdersByIdPage({ params }: Props) {
                       className="mr-5"
                     />
                     <div>
-                      <p>{product.title}</p>
-                      <p>${product.price} x 3</p>
+                      <p>{product?.product?.title}</p>
+                      <p>
+                        ${product?.price} x {product?.quantity}
+                      </p>
                       <p className="font-bold">
-                        Subtotal: ${product.price * 3}
+                        Subtotal: ${product.price * product?.quantity}
                       </p>
                     </div>
                   </div>
@@ -79,44 +85,48 @@ export default function OrdersByIdPage({ params }: Props) {
           <div className="bg-white rounded-xl shadow-xl p-7">
             <h2 className="text-2xl mb-2 font-bold">Address to send</h2>
             <div className="mb-10">
-              <p className="text-xl">Fernando sosa</p>
-              <p>Av. nombre </p>
-              <p>municipality: Huixquilucan</p>
-              <p>Col Center</p>
-              <p>Mexico city</p>
-              <p>CP 52744</p>
-              <p>552233322</p>
+              <p className="text-xl">
+                {order?.OrderAddress?.firstName} {order?.OrderAddress?.lastName}
+              </p>
+              <p>{order?.OrderAddress?.address}</p>
+              <p>
+                {order?.OrderAddress?.city}, {order?.OrderAddress?.countryId}
+              </p>
+              <p>{order?.OrderAddress?.postalCode}</p>
+              <p>{order?.OrderAddress?.phone}</p>
             </div>
             {/* Divider */}
             <div className="w-full h-0.5 rounded bg-gray-200 mb-10" />
             <h2 className="text-2xl mb-2 ">Orden</h2>
             <div className="grid grid-cols-2">
               <span>No. Items</span>
-              <span className="text-right">3 Items</span>
+              <span className="text-right">
+                {order?.OrderItem?.length} Item(s)
+              </span>
 
               <span>SubTotal</span>
-              <span className="text-right">$100</span>
+              <span className="text-right">${order?.subTotal}</span>
 
               <span>Taxes(15%)</span>
-              <span className="text-right">$100</span>
+              <span className="text-right">${order?.tax}</span>
 
               <span className="mt-5 text-2xl">Total:</span>
-              <span className="mt-5 text-2xl text-right">$100</span>
+              <span className="mt-5 text-2xl text-right">${order?.total}</span>
             </div>
             <div className="mt-5 mb-2  w-full">
               <div
                 className={clsx(
                   "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
                   {
-                    "bg-red-500": false,
-                    "bg-green-700": true,
+                    "bg-red-500": !order?.isPaid,
+                    "bg-green-700": order?.isPaid,
                   }
                 )}
               >
                 <IoCartOutline size={30} />
-                {/* <span className="mx-2">Pending</span> */}
-
-                <span className="mx-2">Paid</span>
+                <span className="mx-2">
+                  {order?.isPaid ? "Paid" : "Not paid"}
+                </span>
               </div>
             </div>
           </div>

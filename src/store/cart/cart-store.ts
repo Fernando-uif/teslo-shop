@@ -14,6 +14,7 @@ interface State {
     total: number;
     itemsIncart: number;
   };
+  clearCart: () => void;
 }
 // get me permite obtener el estado actual
 export const useCartStore = create<State>()(
@@ -91,7 +92,12 @@ export const useCartStore = create<State>()(
           itemsIncart,
         };
       },
+      
+      clearCart: () => {
+        set({ cart: [] });
+      },
     }),
+
     {
       name: "shopping-cart",
       // skipHydration: true,
