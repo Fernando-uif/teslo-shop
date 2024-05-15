@@ -1,5 +1,4 @@
-
-
+export { OrderStatus } from "./orders/OrderStatus";
 
 export { PayPalButton } from "./payments/PayPalButton";
 export { Providers } from "./providers/Providers";

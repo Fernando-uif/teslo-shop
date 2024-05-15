@@ -1,10 +1,8 @@
 import { Children } from "react";
-import clsx from "clsx";
 import Image from "next/image";
-import { IoCartOutline } from "react-icons/io5";
 import { redirect } from "next/navigation";
 
-import { PayPalButton, Title } from "@/components";
+import { OrderStatus, PayPalButton, Title } from "@/components";
 
 import { getOrderById } from "@/actions/order/get-order-by-id";
 
@@ -28,21 +26,8 @@ export default async function OrdersByIdPage({ params }: Props) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
           {/* Carrito */}
           <div className="flex flex-col mt-5">
-            <div
-              className={clsx(
-                "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
-                {
-                  "bg-red-500": !order?.isPaid,
-                  "bg-green-700": order?.isPaid,
-                }
-              )}
-            >
-              <IoCartOutline size={30} />
-              <span className="mx-2">
-                {order?.isPaid ? "Paid" : "Not paid"}
-              </span>
-            </div>
-
+            {/*  Status */}
+            <OrderStatus isPaid={order?.isPaid || false} />
             {/* Items */}
             {Children.toArray(
               order?.OrderItem.map((product) => {
@@ -108,10 +93,14 @@ export default async function OrdersByIdPage({ params }: Props) {
               <span className="mt-5 text-2xl text-right">${order?.total}</span>
             </div>
             <div className="mt-5 mb-2  w-full">
-              <PayPalButton
-                amount={order?.total || 0}
-                orderId={order?.id || ""}
-              />
+              {order?.isPaid ? (
+                <OrderStatus isPaid={order?.isPaid || false} />
+              ) : (
+                <PayPalButton
+                  amount={order?.total || 0}
+                  orderId={order?.id || ""}
+                />
+              )}
             </div>
           </div>
         </div>

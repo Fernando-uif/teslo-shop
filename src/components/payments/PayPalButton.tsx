@@ -1,8 +1,14 @@
 "use client";
 
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
-import { CreateOrderData, CreateOrderActions } from "@paypal/paypal-js";
-import { setTransactionId } from "@/actions/paypal/set-transaction-id";
+import {
+  CreateOrderData,
+  CreateOrderActions,
+  OnApproveData,
+  OnApproveActions,
+} from "@paypal/paypal-js";
+import { setTransactionId } from "@/actions/payments/set-transaction-id";
+import { paypalCheckPayment } from "@/actions";
 
 interface Props {
   orderId: string;
@@ -30,10 +36,11 @@ export const PayPalButton = ({ amount, orderId }: Props) => {
     actions: CreateOrderActions
   ): Promise<string> => {
     const transactionId = await actions.order.create({
+      // Al colocar el invoice_id lee estaremos diciendo que cuando cree esta orden tambien le coloque el orderId para que este en sus propiedades
       intent: "CAPTURE",
       purchase_units: [
         {
-          // invoice_id:'order_id',
+          invoice_id: orderId,
           amount: {
             currency_code: "USD",
             value: `${roundedAmount}`,
@@ -49,6 +56,16 @@ export const PayPalButton = ({ amount, orderId }: Props) => {
     }
     return transactionId;
   };
+  const onApprove = async (
+    data: OnApproveData,
+    actions: OnApproveActions
+  ): Promise<void> => {
+    const details = await actions.order?.capture();
+    if (!details || !details?.id) return;
 
-  return <PayPalButtons createOrder={createOrder} />;
+    // Sera el transaction id que guardamos
+    await paypalCheckPayment(details.id);
+  };
+
+  return <PayPalButtons createOrder={createOrder} onApprove={onApprove} />;
 };
