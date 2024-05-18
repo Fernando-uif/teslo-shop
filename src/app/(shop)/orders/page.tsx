@@ -3,6 +3,7 @@ export const revalidate = 0;
 import { getOrdersByUser } from "@/actions/order/get-orders-by-user";
 import { Title } from "@/components";
 
+import { Children } from 'react';
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { IoCardOutline } from "react-icons/io5";
@@ -47,7 +48,8 @@ export default async function OrdersPage() {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => {
+            {
+            Children.toArray(orders.map((order) => {
               return (
                 <>
                   <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
@@ -82,7 +84,8 @@ export default async function OrdersPage() {
                   
                 </>
               );
-            })}
+            })
+            )}
 
          
           </tbody>
