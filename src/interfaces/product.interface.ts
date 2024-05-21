@@ -1,7 +1,7 @@
 export interface Product {
   id: string;
-  description: string | null;
-  gender: Category;
+  description: string;
+  gender: "men" | "woman" | "kid" | "unisex";
   images: string[];
   inStock: number;
   price: number;
@@ -13,7 +13,11 @@ export interface Product {
   // TODO type
   // type: ValidType;
 }
-
+export interface ProductImage {
+  id: number;
+  url: string;
+  productId?: string;
+}
 export interface CartProduct {
   id: string;
   slug: string;
@@ -22,7 +26,6 @@ export interface CartProduct {
   quantity: number;
   size: Size;
   image: string;
-  
 }
 
 export type Category = "men" | "women" | "kid" | "unisex";
