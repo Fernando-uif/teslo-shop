@@ -1,6 +1,8 @@
-export { OrderStatus } from "./orders/OrderStatus";
 
+
+export { OrderStatus } from "./orders/OrderStatus";
 export { PayPalButton } from "./payments/PayPalButton";
+export { ProductImage } from "@/app/(shop)/admin/product/product-image/ProductImage";
 export { Providers } from "./providers/Providers";
 export { QuantitySelector } from "./product/quantity-selector/QuantitySelector";
 export { SizeSelector } from "./product/size-selector/SizeSelector";

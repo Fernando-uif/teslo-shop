@@ -1,16 +1,18 @@
 "use client";
 import { Children } from "react";
 import { Category, Product } from "@/interfaces";
+import clsx from "clsx";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-import { ProductImage } from "@/interfaces/product.interface";
-import Image from "next/image";
-import clsx from "clsx";
-import { createUpdateProduct } from "@/actions";
+import { ProductImage as ProductWithImage } from "@/interfaces/product.interface";
+
+import { createUpdateProduct, deleteProductImage } from "@/actions";
+import { ProductImage } from "../../product-image/ProductImage";
 
 interface Props {
   // Estaremos diciendo que viene producto y adeas el ProductImage, que este es opcional y es de tipo ProductImage ( este es de prisma pero solo se usara 1 vez )
-  product: Partial<Product> & { ProductImage?: ProductImage[] };
+  product: Partial<Product> & { ProductImage?: ProductWithImage[] };
   categories: Category[];
 }
 
@@ -26,10 +28,11 @@ interface FormInputs {
   tags: string[] | string;
   gender: "men" | "woman" | "kid" | "unisex";
   categoryId: string;
-  // todo images
+  images?: FileList;
 }
 
 export const ProductForm = ({ product, categories }: Props) => {
+  const router = useRouter();
   const {
     handleSubmit,
     register,
@@ -45,7 +48,7 @@ export const ProductForm = ({ product, categories }: Props) => {
       ...product,
       tags: product?.tags?.join(", ") || "",
       sizes: product?.sizes || [],
-      // todo images
+      images: undefined,
     },
   });
   // si los sizes cambian redibuja el ui
@@ -57,10 +60,8 @@ export const ProductForm = ({ product, categories }: Props) => {
   };
 
   const onSubmit = async (data: FormInputs) => {
-    console.log(data, "tenemos data");
-
     const formData = new FormData();
-    const { ...productToSave } = data;
+    const { images, ...productToSave } = data;
     if (product.id) {
       formData.append("id", product?.id || "");
     }
@@ -74,8 +75,19 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append("categoryId", productToSave.categoryId.toString() || "");
     formData.append("gender", productToSave.gender.toString() || "");
 
-    const { ok } = await createUpdateProduct(formData);
-    console.log(ok);
+    if (images) {
+      for (let i = 0; i < images.length; i++) {
+        formData.append("images", images[i]);
+      }
+    }
+
+    const { ok, product: updatedProduct } = await createUpdateProduct(formData);
+
+    if (!ok) {
+      alert("Was not possible update the product ");
+      return;
+    }
+    router.replace(`/admin/product/${updatedProduct?.slug}`);
   };
 
   return (
@@ -198,24 +210,25 @@ export const ProductForm = ({ product, categories }: Props) => {
             <input
               type="file"
               multiple
+              {...register("images")}
               className="p-2 border rounded-md bg-gray-200"
-              accept="image/png, image/jpeg"
+              accept="image/png, image/jpeg, image/avif"
             />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {product.ProductImage?.map((image) => {
               return (
                 <div key={image.id}>
-                  <Image
+                  <ProductImage
                     alt={product?.title || ""}
-                    src={`/products/${image.url}`}
+                    src={image.url}
                     width={300}
                     height={300}
                     className="rounded-t shadow-md"
                   />
                   <button
                     type="button"
-                    onClick={() => console.log(image.id, image.url)}
+                    onClick={() => deleteProductImage(image.id, image.url)}
                     className="btn-danger w-full rounded-b-xl"
                   >
                     Delete

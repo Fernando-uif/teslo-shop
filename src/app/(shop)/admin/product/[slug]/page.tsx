@@ -15,7 +15,7 @@ export default async function ProductPage({ params }: Props) {
     getProductBySlug(slug),
     getCategories(),
   ]);
-  console.log(product, "tenemos el product");
+
   // todo new
   if (!product && slug !== "new") {
     redirect("/admin/products");

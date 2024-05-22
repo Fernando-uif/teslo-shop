@@ -13,6 +13,7 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
 import "./slideshow.css";
+import { ProductImage } from "@/app/(shop)/admin/product/product-image/ProductImage";
 
 interface Props {
   images: string[];
@@ -35,7 +36,6 @@ export const ProductSlideShow = ({ images, title, className }: Props) => {
         slidesPerView={1}
         navigation={true}
         autoplay={{ delay: 2500 }}
-
         thumbs={{
           swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
         }}
@@ -47,8 +47,8 @@ export const ProductSlideShow = ({ images, title, className }: Props) => {
             return (
               <>
                 <SwiperSlide>
-                  <Image
-                    src={`/products/${image}`}
+                  <ProductImage
+                    src={image}
                     alt={`${title}`}
                     width={1024}
                     height={800}
@@ -74,8 +74,8 @@ export const ProductSlideShow = ({ images, title, className }: Props) => {
             return (
               <>
                 <SwiperSlide>
-                  <Image
-                    src={`/products/${image}`}
+                  <ProductImage
+                    src={image}
                     alt={`${title}`}
                     width={300}
                     height={300}

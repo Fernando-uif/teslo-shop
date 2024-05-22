@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { useCartStore } from "@/store";
-import { QuantitySelector } from "@/components";
+import { ProductImage, QuantitySelector } from "@/components";
 
 const ProductsInCart = () => {
   const productsInCart = useCartStore((state) => state.cart);
@@ -27,8 +27,8 @@ const ProductsInCart = () => {
         productsInCart.map((product) => {
           return (
             <div className="flex mb-5">
-              <Image
-                src={`/products/${product.image}`}
+              <ProductImage
+                src={product.image}
                 alt={`${product.title}`}
                 width={100}
                 height={100}
