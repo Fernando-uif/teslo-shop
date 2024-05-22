@@ -26,7 +26,7 @@ interface FormInputs {
   inStock: number;
   sizes: string[];
   tags: string[] | string;
-  gender: "men" | "woman" | "kid" | "unisex";
+  gender: "men" | "women" | "kid" | "unisex";
   categoryId: string;
   images?: FileList;
 }

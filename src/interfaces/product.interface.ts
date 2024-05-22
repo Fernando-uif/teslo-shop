@@ -1,7 +1,7 @@
 export interface Product {
   id: string;
   description: string;
-  gender: "men" | "woman" | "kid" | "unisex";
+  gender: "men" | "women" | "kid" | "unisex";
   images: string[];
   inStock: number;
   price: number;
