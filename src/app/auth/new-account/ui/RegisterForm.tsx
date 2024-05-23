@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { registerUser } from "@/actions/";
 import { useState } from "react";
 import { login } from "@/actions/auth/login";
+import { useRouter } from "next/navigation";
 
 type FormInputs = {
   name: string;
@@ -15,6 +16,7 @@ type FormInputs = {
 
 export const RegisterForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -32,7 +34,9 @@ export const RegisterForm = () => {
       return;
     }
     await login(email.toLowerCase(), password);
-    window.location.replace("/");
+    // window.location.replace("/");
+    router.replace('/')
+
   };
   return (
     <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
