@@ -35,7 +35,8 @@ export const RegisterForm = () => {
     }
     await login(email.toLowerCase(), password);
     // window.location.replace("/");
-    router.replace('/')
+    // router.replace('/')
+    console.log('usuario creado');
 
   };
   return (
