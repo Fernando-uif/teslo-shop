@@ -15,7 +15,8 @@ export const LoginForm = () => {
   useEffect(() => {
     if (state === "Success") {
       // router.replace("/");
-      window.location.replace('/');
+      // window.location.replace('/');
+      console.log('entrando use Effect');
     }
   }, [state]);
 
