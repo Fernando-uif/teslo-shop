@@ -10,13 +10,10 @@ import { IoInformationOutline } from "react-icons/io5";
 
 export const LoginForm = () => {
   const [state, dispatch] = useFormState(authenticate, undefined);
-  // const router = useRouter();
 
   useEffect(() => {
     if (state === "Success") {
-      // router.replace("/");
-      // window.location.replace('/');
-      console.log('entrando use Effect');
+      window.location.replace('/');
     }
   }, [state]);
 

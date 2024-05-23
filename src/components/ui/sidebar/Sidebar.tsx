@@ -96,7 +96,7 @@ export const Sidebar = () => {
             <span className="ml-3 text-xl">Sign out</span>
           </button>
         )}
-        {!isAuthenticated && (
+        {/* {!isAuthenticated && (
           <Link
             href="/auth/login"
             className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
@@ -105,7 +105,7 @@ export const Sidebar = () => {
             <IoLogInOutline size={30} />
             <span className="ml-3 text-xl">Sign in</span>
           </Link>
-        )}
+        )} */}
 
         {/* Line Separator */}
         <div className="w-full h-px bg-gray-200 my-10" />

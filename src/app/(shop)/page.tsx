@@ -18,7 +18,7 @@ export default async function Home({ searchParams }: Props) {
     await getPaginatedProductsWidthImages({ page });
 
   if (!products?.length) {
-    // redirect("/");
+    redirect("/");
   }
   return (
     <>

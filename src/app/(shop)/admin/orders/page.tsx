@@ -11,7 +11,8 @@ import { Title } from "@/components";
 export default async function OrdersPage() {
   const { ok, orders = [] } = await getPaginatedOrders();
   if (!ok) {
-    redirect("/auth/login");
+    // redirect("/auth/login");
+    redirect("/");
   }
   return (
     <>

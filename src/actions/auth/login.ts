@@ -28,12 +28,10 @@ export async function authenticate(
 export const login = async (email: string, password: string) => {
   try {
     await signIn("credentials", { email, password });
-    console.log('se autentico bien');
     return {
       ok: true,
     };
   } catch (error) {
-    console.log('se autentico mal');
     console.log(error);
     return {
       ok: false,

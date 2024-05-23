@@ -10,7 +10,8 @@ import { UserTable } from "./ui/UserTable";
 export default async function OrdersPage() {
   const { ok, users = [] } = await getPaginatedUsers();
   if (!ok) {
-    redirect("/auth/login");
+    // redirect("/auth/login");
+    redirect("/");
   }
   return (
     <>

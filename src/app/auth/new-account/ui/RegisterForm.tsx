@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { registerUser } from "@/actions/";
 import { useState } from "react";
 import { login } from "@/actions/auth/login";
-import { useRouter } from "next/navigation";
 
 type FormInputs = {
   name: string;
@@ -16,7 +15,7 @@ type FormInputs = {
 
 export const RegisterForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
-  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -25,19 +24,13 @@ export const RegisterForm = () => {
 
   const onSubmit = async (data: FormInputs) => {
     const { email, name, password } = data;
-    console.log(email,name,password,'tenemos data');
     const resp = await registerUser(name, email, password);
-    console.log(resp,'resp');
     if (!resp.ok) {
-      console.log('resp.ok error');
       setErrorMessage("User not created");
       return;
     }
     await login(email.toLowerCase(), password);
-    // window.location.replace("/");
-    // router.replace('/')
-    console.log('usuario creado');
-
+    window.location.replace("/");
   };
   return (
     <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
