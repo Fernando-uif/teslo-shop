@@ -23,10 +23,11 @@ export const RegisterForm = () => {
 
   const onSubmit = async (data: FormInputs) => {
     const { email, name, password } = data;
-
+    console.log(email,name,password,'tenemos data');
     const resp = await registerUser(name, email, password);
-
+    console.log(resp,'resp');
     if (!resp.ok) {
+      console.log('resp.ok error');
       setErrorMessage("User not created");
       return;
     }
@@ -69,7 +70,7 @@ export const RegisterForm = () => {
 
       <span className="text-red-400 ">{errorMessage}</span>
 
-      <button className="btn-primary">Login to your account</button>
+      <button className="btn-primary">Create</button>
 
       {/* divisor l ine */}
       <div className="flex items-center my-5">
